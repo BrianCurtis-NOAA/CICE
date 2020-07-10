@@ -47,7 +47,6 @@ list(APPEND cice_shared_files
   cicecore/cicedynB/infrastructure/ice_read_write.F90
   cicecore/cicedynB/infrastructure/ice_restart_driver.F90
   cicecore/cicedynB/infrastructure/ice_restoring.F90
-  cicecore/cicedynB/infrastructure/ice_shr_reprosum86.c
 
   #Icepack List:
   icepack/columnphysics/icepack_aerosol.F90
@@ -85,8 +84,12 @@ list(APPEND cice_shared_files
   icepack/columnphysics/icepack_zsalinity.F90
 )
 
+list(APPEND cice_shared_files_c
+  cicecore/cicedynB/infrastructure/ice_shr_reprosum86.c
+)
+
 #-- Using MPI
-list(APPEND mpi_comm_files
+list(APPEND cice_mpi_comm_files
   cicecore/cicedynB/infrastructure/comm/mpi/ice_boundary.F90
   cicecore/cicedynB/infrastructure/comm/mpi/ice_broadcast.F90
   cicecore/cicedynB/infrastructure/comm/mpi/ice_communicate.F90
@@ -98,7 +101,7 @@ list(APPEND mpi_comm_files
 )
 
 #-- Using Serial
-list(APPEND serial_comm_files
+list(APPEND cice_serial_comm_files
   cicecore/cicedynB/infrastructure/comm/serial/ice_boundary.F90
   cicecore/cicedynB/infrastructure/comm/serial/ice_broadcast.F90
   cicecore/cicedynB/infrastructure/comm/serial/ice_communicate.F90
@@ -110,26 +113,26 @@ list(APPEND serial_comm_files
 )
 
 #-- Using binary IO
-list(APPEND binary_io_files
+list(APPEND cice_binary_io_files
   cicecore/cicedynB/infrastructure/io/io_binary/ice_history_write.F90
   cicecore/cicedynB/infrastructure/io/io_binary/ice_restart.F90
 )
 
 #-- Using NetCDF IO
-list(APPEND netcdf_io_files
+list(APPEND cice_netcdf_io_files
   cicecore/cicedynB/infrastructure/io/io_netcdf/ice_history_write.F90
   cicecore/cicedynB/infrastructure/io/io_netcdf/ice_restart.F90
 )
 
 #PIO2 I/O List:
-list(APPEND pio2_io_files
+list(APPEND cice_pio2_io_files
   cicecore/cicedynB/infrastructure/io/io_pio2/ice_history_write.F90
   cicecore/cicedynB/infrastructure/io/io_pio2/ice_pio.F90
   cicecore/cicedynB/infrastructure/io/io_pio2/ice_restart.F90
 )
 
 #-- Using standalone driver
-list(APPEND standalone_driver_files
+list(APPEND cice_standalone_driver_files
   cicecore/drivers/standalone/cice/CICE.F90
   cicecore/drivers/standalone/cice/CICE_FinalMod.F90
   cicecore/drivers/standalone/cice/CICE_InitMod.F90
@@ -137,7 +140,7 @@ list(APPEND standalone_driver_files
 )
 
 #-- Using NUOPC CMEPS driver
-list(APPEND nuopc_cmeps_driver_files
+list(APPEND cice_nuopc_cmeps_driver_files
   cicecore/drivers/nuopc/cmeps/CICE_FinalMod.F90
   cicecore/drivers/nuopc/cmeps/CICE_InitMod.F90
   cicecore/drivers/nuopc/cmeps/CICE_RunMod.F90
@@ -150,7 +153,7 @@ list(APPEND nuopc_cmeps_driver_files
 )
 
 #-- Using NUOPC DMI driver
-list(APPEND nuopc_dmi_driver_files
+list(APPEND cice_nuopc_dmi_driver_files
   cicecore/drivers/nuopc/dmi/CICE.F90
   cicecore/drivers/nuopc/dmi/CICE_FinalMod.F90
   cicecore/drivers/nuopc/dmi/CICE_InitMod.F90
@@ -158,7 +161,7 @@ list(APPEND nuopc_dmi_driver_files
 )
 
 #-- Using direct driver
-list(APPEND direct_driver_files
+list(APPEND cice_direct_driver_files
   cicecore/drivers/direct/hadgem3/CICE.F90
   cicecore/drivers/direct/hadgem3/CICE_FinalMod.F90
   cicecore/drivers/direct/hadgem3/CICE_InitMod.F90
@@ -166,7 +169,7 @@ list(APPEND direct_driver_files
 )
 
 #-- Using MCT driver
-list(APPEND mct_driver_files
+list(APPEND cice_mct_driver_files
   cicecore/drivers/mct/cesm1/CICE_FinalMod.F90
   cicecore/drivers/mct/cesm1/CICE_InitMod.F90
   cicecore/drivers/mct/cesm1/CICE_RunMod.F90
