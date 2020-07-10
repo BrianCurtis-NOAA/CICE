@@ -1,34 +1,33 @@
-include(cice_files.cmake)
+include("cice_files.cmake")
 
-# VARIABLE OPTIONS
+# Configuration Options
 set(CICE_DRIVER "NUOPC" CACHE STRING "CICE OPTIONS: Choose CICE6 Driver." FORCE)
 set_property(CACHE CICE_DRIVER PROPERTY STRINGS "STANDALONE" "NUOPC" "DIRECT" "MCT")
 
 set(NUOPC_TARGET "CMEPS" CACHE STRING "CICE OPTIONS: Choose NUOPC implementation." FORCE)
 set_property(CACHE NUOPC_TARGET PROPERTY STRINGS "CMEPS" "DMI")
 
-message(STATUS "CICE OPTIONS: CICE_DRIVER = ${CICE_DRIVER}")
-message(STATUS "CICE OPTIONS: NUOPC_TARGET = ${NUOPC_TARGET}")
+message(STATUS "CICE: CICE_DRIVER = ${CICE_DRIVER}")
+message(STATUS "CICE: NUOPC_TARGET = ${NUOPC_TARGET}")
 
 # Choose files based on Serial or MPI build
 if(MPI_Fortran_FOUND)
-  message(STATUS "CICE OPTIONS: Build with MPI")
+  message(STATUS "CICE: Build with MPI")
   list(APPEND comm_list ${cice_mpi_comm_files})
 else()
-  message(STATUS "CICE OPTIONS: Build without MPI")
+  message(STATUS "CICE: Build without MPI")
   list(APPEND comm_list ${cice_serial_comm_files})
 endif()
 
 # Collect IO files for appropriate IO
 if(USE_NetCDF AND NetCDF_Fortran_FOUND)
-  message(STATUS "CICE OPTIONS: Build with NetCDF IO")
+  message(STATUS "CICE: Build with NetCDF IO")
   list(APPEND io_list ${cice_netcdf_io_files})
-elseif(USE_PIO2 AND PIO2_FOUND)
-  message(STATUS "CICE OPTIONS: Build with PIO2 IO")
-  message(STATUS "CICE OPTIONS: PIO2 library is currently unsupported")
+elseif(USE_PIO AND PIO_Fortran_FOUND)
+  message(STATUS "CICE: Build with Parallel IO")
   list(APPEND io_list ${cice_pio2_io_files})
 else()
-  message(STATUS "CICE OPTIONS: Build with Binary IO")
+  message(STATUS "CICE: Build with Binary IO")
   list(APPEND io_list ${cice_binary_io_files})
 endif()
 
@@ -51,6 +50,7 @@ endif()
 # Merge all the lists together for the library
 list(APPEND lib_src_files
   ${cice_shared_files}
+  ${icepack_files}
   ${comm_list}
   ${io_list}
   ${driver_list}
@@ -72,8 +72,8 @@ if(NetCDF_Fortran_FOUND)
   target_link_libraries(${libName} PUBLIC NetCDF::NetCDF_Fortran)
 endif()
 
-if(PIO2_FOUND)
-  message(STATUS "PIO2 library is currently unsupported")
+if(PIO_Fortran_FOUND)
+  target_link_libraries(${libName} PUBLIC PIO::PIO_Fortran)
 endif()
 
 target_include_directories(${libName} INTERFACE
@@ -87,7 +87,7 @@ endif()
 # Install compiled Fortran modules
 install(DIRECTORY ${moduleDir} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-# This tells CMake where to put things in the case of 'make install' (currently untested)
+# Install library
 install(
   TARGETS ${libName}
   LIBRARY DESTINATION lib

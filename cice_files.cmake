@@ -47,8 +47,11 @@ list(APPEND cice_shared_files
   cicecore/cicedynB/infrastructure/ice_read_write.F90
   cicecore/cicedynB/infrastructure/ice_restart_driver.F90
   cicecore/cicedynB/infrastructure/ice_restoring.F90
+)
 
-  #Icepack List:
+
+#Icepack List:
+list(APPEND icepack_files
   icepack/columnphysics/icepack_aerosol.F90
   icepack/columnphysics/icepack_age.F90
   icepack/columnphysics/icepack_algae.F90
